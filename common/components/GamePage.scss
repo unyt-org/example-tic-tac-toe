@@ -1,0 +1,110 @@
+
+:host {
+	&>div {
+		a, span {
+			cursor: pointer;
+			font-size: xx-large;
+			text-align: center;
+			margin: auto;
+			display: flex;
+			justify-content: center;
+		}
+		a {
+			margin-top: 30px;
+			word-break: break-all;
+			line-height: 1;
+			color: var(--blue);
+		}
+		span {
+			font-size: x-large;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+		.reset {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: black;
+			border: 2px solid black;
+			padding: 20px;
+			border-radius: 10px;
+			width: 50%;
+			max-width: 400px;
+			margin: auto;
+			margin-top: 40px;
+			transition: background-color 0.2s;
+			&:hover {
+				background-color: transparent;
+			}
+		}
+		.game {
+			width: 80%;
+			*[data-val=''] {
+				&:hover {
+					&::after {
+						content: "\f111";
+						opacity: 0.5;
+					}
+				}
+			}
+			&[data-symbol] {
+				*[data-val=''] {
+					&:hover {
+						&::after {
+							content: "\f00d";
+							font-weight: 900;
+						}
+					}
+				}
+			}
+
+
+			display: grid;
+			flex-direction: column;
+			margin: auto;
+			aspect-ratio : 1 / 1;
+			grid-template-rows: repeat(3, 1fr);
+			grid-template-columns: repeat(3, 1fr);
+			max-width: 500px;
+			max-height: 500px;
+			&>div {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: xx-large;
+				border: 5px solid white;
+				border-left: none;
+				border-top: none;
+				font-size: 80px;
+
+				&:nth-child(n+7) {
+					border-bottom: none;
+				}
+				&:nth-child(3n) {
+					border-right: none;
+				}
+
+				&::after {
+					position: absolute;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+				&::after {
+					font-family: 'Font Awesome 6 Free';
+				}
+				&[data-val='O'] {
+					&::after {
+						content: "\f111";
+					}
+				}
+				&[data-val='X'] {
+					&::after {
+						content: "\f00d";
+						font-weight: 900;
+					}
+				}
+			}
+		}
+	}
+}

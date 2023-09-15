@@ -1,0 +1,13 @@
+use stage from #public.uix;
+
+endpoint: stage {
+	prod: @+example_ttt
+},
+
+location: stage {
+	prod: @+unyt_eu1
+},
+
+domain: stage {
+	prod: 'tic-tac-toe.unyt.app'
+}
