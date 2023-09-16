@@ -1,3 +1,4 @@
+// deno-lint-ignore-file require-await
 import { Datex } from "unyt_core/datex.ts";
 
 export type MapType = Map<number, 'X' | 'O' | ''>;
@@ -11,7 +12,6 @@ export type GameType = {
 
 // Expose this class as public endpoint property
 @endpoint export class Game {
-
 	static list = new Map<string, GameType>();
 
 	@property static async get(id: string): Promise<GameType> {
@@ -44,5 +44,4 @@ export type GameType = {
 		this.list.set(id, game);
 		return game;
 	}
-
 }

@@ -6,9 +6,11 @@ declare const DatexRuntime: any;
 @UIX.template(function(this: GamePage) {
 	const game = this.options.game;
 	return <div>
-		<a onclick={UIX.inDisplayContext(()=>{
-			window.open(new URL(`/${game.id}`, location.origin), game.id,"menubar=1,resizable=1,width=500,height=500");
-		})}>{new URL(`/${game.id}`, location.origin).toString()}</a>
+		<b>Open in private tab</b>
+		<i onclick={UIX.inDisplayContext(()=>{
+			const url = new URL(`/${game.id}`, location.origin);
+			navigator.clipboard.writeText(url.toString());
+		})}>{new URL(`/${game.id}`, location.origin).toString()}</i>
 		
 		<span>
 			{always(()=> game.turn === DatexRuntime.endpoint ?
@@ -16,7 +18,6 @@ declare const DatexRuntime: any;
 				"Other's turn"
 			)}!
 		</span>
-
 		<div class="game" data-symbol={game.host === DatexRuntime.endpoint ?? false}>
 			{
 				always(() => {
@@ -60,7 +61,34 @@ export class GamePage extends UIX.BaseComponent<{game: GameType}> {
 	}
 
 	@standalone
+	private checkWinner(map: ('X' | 'O' | '')[]) {
+		const combinations = [
+			[0, 1, 2], [3, 4, 5], [6, 7, 8],	// Rows
+			[0, 3, 6], [1, 4, 7], [2, 5, 8],	// Columns
+			[0, 4, 8], [2, 4, 6]				// Diagonals
+		];
+		for (const combo of combinations) {
+			const [a, b, c] = combo;
+			if (map[a] !== '' && map[a] === map[b] && map[a] === map[c])
+				return map[a] as 'X' | 'O'; 
+		}
+		return map.filter(e => e === '').length === 0 ? 'T' : null;
+	}
+
+	@standalone
 	protected override onDisplay(): void | Promise<void> {
-		console.log("Game pointer", this.options.game)
+		const map = this.options.$.game.$.map;
+		map.observe(()=>{
+			const host = this.options.game.host === DatexRuntime.endpoint;
+			const symbol = host ? 'X' : 'O';
+			const winner = this.checkWinner([...map.val!.values()]);
+			if (winner) {
+				this.reset();
+				if (winner === "T")
+					alert("Tie!");
+				else alert(symbol === winner ? "You won!" : "You loose!");
+			}
+		});
+		console.log("Game pointer", this.options.game);
 	}
 }
