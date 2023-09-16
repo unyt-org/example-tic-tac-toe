@@ -19,14 +19,12 @@ import { Datex } from "unyt_core/datex.ts";
 			)}!
 		</span>
 		<div class="game" data-symbol={game.host === Datex.Runtime.endpoint ?? false}>
-			{
-				map(game.map, ([key]) => (
-					<div 
-						data-val={$$(game.map, key)}
-						onclick={() => this.set(key)}
-						/>
-				))
-			}
+			{map(game.map, ([key]) => 
+				<div 
+					data-val={$$(game.map, key)}
+					onclick={() => this.set(key)}
+				/>
+			)}
 		</div>
 		<div onclick={() => this.reset()} class="reset">Reset</div>
 	</div>
