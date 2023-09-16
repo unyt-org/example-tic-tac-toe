@@ -1,7 +1,7 @@
 import { UIX } from "uix";
-import { always } from 'unyt_core/functions.ts';
+import { always, map } from 'unyt_core/functions.ts';
 import { GameType } from "../../backend/Map.ts";
-declare const DatexRuntime: any;
+import { Datex } from "unyt_core/datex.ts";
 
 @UIX.template(function(this: GamePage) {
 	const game = this.options.game;
@@ -13,25 +13,19 @@ declare const DatexRuntime: any;
 		})}>{new URL(`/${game.id}`, location.origin).toString()}</i>
 		
 		<span>
-			{always(()=> game.turn === DatexRuntime.endpoint ?
+			{always(()=> game.turn === Datex.Runtime.endpoint ?
 				"Your turn" :
 				"Other's turn"
 			)}!
 		</span>
-		<div class="game" data-symbol={game.host === DatexRuntime.endpoint ?? false}>
+		<div class="game" data-symbol={game.host === Datex.Runtime.endpoint ?? false}>
 			{
-				always(() => {
-					return Array.from(game.map.entries()).map(([key, val]) => <div 
-						data-val={val}
-						onclick={()=> this.set(key)}
-						/>)
-				})
-				// map(game.map, ([key, val]) => (
-				// 	<div 
-				// 		data-val={val}
-				// 		onclick={()=> this.set(key)}
-				// 		/>
-				// ))
+				map(game.map, ([key]) => (
+					<div 
+						data-val={$$(game.map, key)}
+						onclick={() => this.set(key)}
+						/>
+				))
 			}
 		</div>
 		<div onclick={() => this.reset()} class="reset">Reset</div>
@@ -39,28 +33,25 @@ declare const DatexRuntime: any;
 })
 export class GamePage extends UIX.BaseComponent<{game: GameType}> {
 
-	@standalone
 	private reset() {
 		const game = this.options.game;
 		game.map.forEach((tile, key, map) => tile !== '' && map.set(key, ''));
 		game.turn = game.host;
 	}
 
-	@standalone
 	private set(index: number) {
 		const game = this.options.game;
-		if (game.turn === DatexRuntime.endpoint) {
-			const symbol = game.host === DatexRuntime.endpoint ? 'X' : 'O';
+		if (game.turn === Datex.Runtime.endpoint) {
+			const symbol = game.host === Datex.Runtime.endpoint ? 'X' : 'O';
 			if (game.map.get(index) === '') {
 				game.map.set(index, symbol);
-				const other = [...game.players].find(p => p != DatexRuntime.endpoint);
+				const other = [...game.players].find(p => p != Datex.Runtime.endpoint);
 				game.turn = other;
 			}
 		} else
 			alert("Oups, it is not your turn!")
 	}
 
-	@standalone
 	private checkWinner(map: ('X' | 'O' | '')[]) {
 		const combinations = [
 			[0, 1, 2], [3, 4, 5], [6, 7, 8],	// Rows
@@ -75,11 +66,10 @@ export class GamePage extends UIX.BaseComponent<{game: GameType}> {
 		return map.filter(e => e === '').length === 0 ? 'T' : null;
 	}
 
-	@standalone
-	protected override onDisplay(): void | Promise<void> {
+	protected override onDisplay() {
 		const map = this.options.$.game.$.map;
 		map.observe(()=>{
-			const host = this.options.game.host === DatexRuntime.endpoint;
+			const host = this.options.game.host === Datex.Runtime.endpoint;
 			const symbol = host ? 'X' : 'O';
 			const winner = this.checkWinner([...map.val!.values()]);
 			if (winner) {
