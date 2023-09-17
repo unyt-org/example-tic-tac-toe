@@ -4,5 +4,5 @@ import { GamePage } from "common/components/GamePage.tsx";
 import { Datex } from "unyt_core/datex.ts";
 await Datex.Supranet.connectAnonymous();
 export default {
-	'/:id': async (ctx) => <GamePage game={await Game.get(ctx.urlMatch.get("id"))}/>,
+	'/:id': async (_, {id}) => <GamePage game={await Game.get(id)}/>,
 } satisfies UIX.Entrypoint;
