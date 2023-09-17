@@ -21,6 +21,10 @@ export type GameType = {
 		// join existing game
 		if (this.list.has(id)) {
 			const game = this.list.get(id)!;
+			// for (const player of game.players) {
+			// 	if (!await player.isOnline())
+			// 		game.players.delete(player);
+			// }
 			if (game.players.has(newPlayer) || (
 				!game.players.has(newPlayer) &&
 				game.players.size === 1

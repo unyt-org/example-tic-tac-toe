@@ -6,11 +6,7 @@ import { Datex } from "unyt_core/datex.ts";
 @UIX.template(function(this: GamePage) {
 	const game = this.options.game;
 	return <div>
-		<b>Open in private tab</b>
-		<i onclick={UIX.inDisplayContext(()=>{
-			const url = new URL(`/${game.id}`, location.origin);
-			navigator.clipboard.writeText(url.toString());
-		})}>{new URL(`/${game.id}`, location.origin).toString()}</i>
+		<a href={`/${game.id}`} target="_blank">Open new tab</a>
 		
 		<span>
 			{always(()=> game.turn === Datex.Runtime.endpoint ?
@@ -72,9 +68,11 @@ export class GamePage extends UIX.BaseComponent<{game: GameType}> {
 			const winner = this.checkWinner([...map.val!.values()]);
 			if (winner) {
 				this.reset();
-				if (winner === "T")
-					alert("Tie!");
-				else alert(symbol === winner ? "You won!" : "You loose!");
+				setTimeout(()=>{
+					if (winner === "T")
+						alert("Tie!");
+					else alert(symbol === winner ? "You won!" : "You loose!");
+				}, 300);
 			}
 		});
 		console.log("Game pointer", this.options.game);

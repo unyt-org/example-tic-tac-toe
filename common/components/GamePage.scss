@@ -1,7 +1,7 @@
 
 :host {
 	&>div {
-		i, b, span {
+		i, a, span {
 			cursor: pointer;
 			font-size: xx-large;
 			text-align: center;
@@ -9,7 +9,7 @@
 			display: flex;
 			justify-content: center;
 		}
-		b {
+		a {
 			color: white;
 			margin-top: 30px;
 			word-break: break-all;
