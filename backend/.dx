@@ -9,5 +9,5 @@ location: stage {
 },
 
 domain: stage {
-	prod: 'tic-tac-toe.unyt.app'
+	prod: 'tic-tac-toe.example.unyt.org'
 }
