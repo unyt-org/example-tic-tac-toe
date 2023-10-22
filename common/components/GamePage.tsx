@@ -1,9 +1,10 @@
-import { UIX } from "uix";
-import { always, map } from 'unyt_core/functions.ts';
+import { always, map } from 'datex-core-legacy/functions.ts';
 import { GameType } from "../../backend/Map.ts";
 import { Datex } from "unyt_core/datex.ts";
+import { Component } from "uix/components/Component.ts";
+import { template } from "uix/html/anonymous-components.ts";
 
-@UIX.template(function(this: GamePage) {
+@template(function(this: GamePage) {
 	const game = this.options.game;
 	return <div>
 		<a href={`/${game.id}`} target="_blank">Open new tab</a>
@@ -25,7 +26,7 @@ import { Datex } from "unyt_core/datex.ts";
 		<div onclick={() => this.reset()} class="reset">Reset</div>
 	</div>
 })
-export class GamePage extends UIX.BaseComponent<{game: GameType}> {
+export class GamePage extends Component<{game: GameType}> {
 
 	private reset() {
 		const game = this.options.game;
@@ -71,7 +72,7 @@ export class GamePage extends UIX.BaseComponent<{game: GameType}> {
 				setTimeout(()=>{
 					if (winner === "T")
 						alert("Tie!");
-					else alert(symbol === winner ? "You won!" : "You loose!");
+					else alert(symbol === winner ? "You won!" : "You lose!");
 				}, 300);
 			}
 		});

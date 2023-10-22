@@ -1,5 +1,5 @@
 // deno-lint-ignore-file require-await
-import { Datex } from "unyt_core/datex.ts";
+import { Datex } from "datex-core-legacy/datex.ts";
 
 export type MapType = Map<number, 'X' | 'O' | ''>;
 export type GameType = {
