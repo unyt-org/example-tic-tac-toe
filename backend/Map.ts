@@ -1,5 +1,6 @@
 // deno-lint-ignore-file require-await
 import { Datex } from "datex-core-legacy/datex.ts";
+import { Endpoint } from "unyt_core/types/addressing.ts";
 
 export type MapType = Map<number, 'X' | 'O' | ''>;
 export type GameType = {
@@ -21,10 +22,7 @@ export type GameType = {
 		// join existing game
 		if (this.list.has(id)) {
 			const game = this.list.get(id)!;
-			// for (const player of game.players) {
-			// 	if (!await player.isOnline())
-			// 		game.players.delete(player);
-			// }
+
 			if (game.players.has(newPlayer) || (
 				!game.players.has(newPlayer) &&
 				game.players.size === 1
@@ -42,8 +40,8 @@ export type GameType = {
 			const map: MapType = $$(new Map());
 			for (let i=0; i<9; i++)
 				map.set(i, '');
-			const game:GameType = $$({
-				players: $$(new Set([newPlayer])),
+			const game = $$({
+				players: new Set<Endpoint>([newPlayer]),
 				turn: newPlayer,
 				host: newPlayer,
 				map,
