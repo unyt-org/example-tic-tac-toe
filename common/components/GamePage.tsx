@@ -2,7 +2,6 @@ import { always, map } from 'datex-core-legacy/functions.ts';
 import { GameType } from "../../backend/Map.ts";
 import { Datex } from "unyt_core/datex.ts";
 import { Component } from "uix/components/Component.ts";
-import { template } from "uix/html/anonymous-components.ts";
 
 @template(function(this: GamePage) {
 	const game = this.options.game;
