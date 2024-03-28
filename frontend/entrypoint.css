@@ -1,4 +1,4 @@
 body {
-	color: white;
-	background-color: var(--light_blue);
+	color: var(--text);
+	font-family: var(--sans-font);
 }
