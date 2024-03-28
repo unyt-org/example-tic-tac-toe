@@ -6,8 +6,7 @@
         "jsxImportSource": "uix",
         "lib": [
             "deno.window",
-            "dom",
-            "esnext"
+            "dom"
         ]
     }
 }

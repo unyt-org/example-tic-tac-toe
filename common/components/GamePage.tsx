@@ -3,11 +3,10 @@ import { GameType } from "../../backend/Map.ts";
 import { Datex } from "unyt_core/datex.ts";
 import { Component } from "uix/components/Component.ts";
 
-@template(function(this: GamePage) {
+@template(function(this) {
 	const game = this.options.game;
 	return <div>
 		<a href={`/${game.id}`} target="_blank">Open new tab</a>
-		
 		<span>
 			{always(()=> game.turn === Datex.Runtime.endpoint ?
 				"Your turn" :
@@ -26,13 +25,15 @@ import { Component } from "uix/components/Component.ts";
 	</div>
 })
 export class GamePage extends Component<{game: GameType}> {
-
+	
+	// Method to reset the game state
 	private reset() {
 		const game = this.options.game;
 		game.map.forEach((tile, key, map) => tile !== '' && map.set(key, ''));
 		game.turn = game.host;
 	}
 
+	// Gets called on click in cell
 	private set(index: number) {
 		const game = this.options.game;
 		if (game.turn === Datex.Runtime.endpoint) {
@@ -46,6 +47,7 @@ export class GamePage extends Component<{game: GameType}> {
 			alert("Oups, it is not your turn!")
 	}
 
+	// Check winner X or O, T if tie or null if there is no winner
 	private checkWinner(map: ('X' | 'O' | '')[]) {
 		const combinations = [
 			[0, 1, 2], [3, 4, 5], [6, 7, 8],	// Rows
@@ -60,19 +62,28 @@ export class GamePage extends Component<{game: GameType}> {
 		return map.filter(e => e === '').length === 0 ? 'T' : null;
 	}
 
+	private isRunning = false;
 	protected override onDisplay() {
 		const map = this.options.$.game.$.map;
+		this.isRunning = true;
+
+		// Observer gets called every time the game
+		// state changed (you or the other player made a move)
 		map.observe(()=>{
-			const host = this.options.game.host === Datex.Runtime.endpoint;
-			const symbol = host ? 'X' : 'O';
-			const winner = this.checkWinner([...map.val!.values()]);
-			if (winner) {
-				this.reset();
-				setTimeout(()=>{
-					if (winner === "T")
-						alert("Tie!");
-					else alert(symbol === winner ? "You won!" : "You lose!");
-				}, 300);
+			if (this.isRunning) {
+				const host = this.options.game.host === Datex.Runtime.endpoint;
+				const symbol = host ? 'X' : 'O';
+				const winner = this.checkWinner([...map.val!.values()]);
+				if (winner) {
+					this.isRunning = false;
+					this.reset();
+					setTimeout(()=>{
+						if (winner === "T")
+							alert("Tie!");
+						else alert(symbol === winner ? "You won!" : "You lose!");
+						this.isRunning = true;
+					}, 300);
+				}
 			}
 		});
 		console.log("Game pointer", this.options.game);
