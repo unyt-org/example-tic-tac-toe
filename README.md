@@ -30,7 +30,7 @@ We split our code base in [back-end](https://unyt.org/glossary#back-end), [front
     │   ├── Map.ts              // Map for games
     │   └── entrypoint.tsx      // Back-end entrypoint
     ├── common/
-    │   ├── compoments/
+    │   ├── components/
     │   │   ├── GamePage.scss   // Game style declaration
     │   │   └── GamePage.tsx    // Game component
     │   └── theme.ts            // Global style theme
