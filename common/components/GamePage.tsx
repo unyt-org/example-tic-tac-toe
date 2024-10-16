@@ -1,10 +1,11 @@
 import { always, map } from 'datex-core-legacy/functions.ts';
-import { GameType } from "../../backend/Map.ts";
-import { Datex } from "unyt_core/datex.ts";
+import { GameType } from "backend/Map.ts";
+import { Datex } from "datex-core-legacy/datex.ts";
 import { Component } from "uix/components/Component.ts";
+import type { Ref } from "datex-core-legacy/datex_all.ts";
 
 @template(function(this) {
-	const game = this.options.game;
+	const game = this.properties.game;
 	return <div>
 		<a href={`/${game.id}`} target="_blank">Open new tab</a>
 		<span>
@@ -13,7 +14,7 @@ import { Component } from "uix/components/Component.ts";
 				"Other's turn"
 			)}!
 		</span>
-		<div class="game" data-symbol={game.host === Datex.Runtime.endpoint ?? false}>
+		<div class="game" data-symbol={(game.host === Datex.Runtime.endpoint)}>
 			{map(game.map, ([key]) => 
 				<div 
 					data-val={$$(game.map, key)}
@@ -24,18 +25,18 @@ import { Component } from "uix/components/Component.ts";
 		<div onclick={() => this.reset()} class="reset">Reset</div>
 	</div>
 })
-export class GamePage extends Component<{game: GameType}> {
+export class GamePage extends Component<{game: Ref<GameType>}> {
 	
 	// Method to reset the game state
 	private reset() {
-		const game = this.options.game;
+		const game = this.properties.game;
 		game.map.forEach((tile, key, map) => tile !== '' && map.set(key, ''));
 		game.turn = game.host;
 	}
 
 	// Gets called on click in cell
 	private set(index: number) {
-		const game = this.options.game;
+		const game = this.properties.game;
 		if (game.turn === Datex.Runtime.endpoint) {
 			const symbol = game.host === Datex.Runtime.endpoint ? 'X' : 'O';
 			if (game.map.get(index) === '') {
@@ -64,7 +65,7 @@ export class GamePage extends Component<{game: GameType}> {
 
 	private isRunning = false;
 	protected override onDisplay() {
-		const map = this.options.$.game.$.map;
+		const map = this.properties.game.$.map;
 		this.isRunning = true;
 
 		// Observer gets called every time the game

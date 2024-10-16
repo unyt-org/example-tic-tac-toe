@@ -1,8 +1,8 @@
 
-import type { Entrypoint } from "uix/html/entrypoints.ts"
-import { Game } from "../backend/Map.ts";
+import { type Entrypoint } from "uix/providers/entrypoints.ts";
+import { Game } from "backend/Map.ts";
 import { GamePage } from "common/components/GamePage.tsx";
-import { Datex } from "unyt_core/datex.ts";
+import { Datex } from "datex-core-legacy/datex.ts";
 import { UIX } from "uix";
 import { Path } from "uix/utils/path.ts";
 
@@ -15,5 +15,6 @@ export default {
 	'/': () => Path.Route(`/${Math.random().toString(36).slice(2, 6)}`),
 	
 	// handle game route
-	'/:id': async (_, {id}) => <GamePage game={await Game.get(id)}/>,
+	'/:id': async (_, {id}) =>
+		<GamePage game={await Game.get(id)}/>,
 } satisfies Entrypoint;
