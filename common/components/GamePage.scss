@@ -1,113 +1,111 @@
-
 :host {
-	&>div {
-		i, a, span {
-			cursor: pointer;
-			font-size: xx-large;
-			text-align: center;
-			margin: auto;
-			display: flex;
-			justify-content: center;
-		}
-		a {
-			color: white;
-			margin-top: 30px;
-			word-break: break-all;
-		}
-		i {
-			line-height: 1;
-			color: var(--blue);
-		}
-		span {
-			font-size: x-large;
-			margin-top: 20px;
-			margin-bottom: 20px;
-		}
-		.reset {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			background-color: black;
-			border: 2px solid black;
-			padding: 20px;
-			border-radius: 10px;
-			width: 50%;
-			max-width: 400px;
-			margin: auto;
-			margin-top: 40px;
-			transition: background-color 0.2s;
-			&:hover {
-				background-color: transparent;
-			}
-		}
-		.game {
-			width: 80%;
-			*[data-val=''] {
-				&:hover {
-					&::after {
-						content: "o";
-						opacity: 0.5;
-					}
-				}
-			}
-			&[data-symbol] {
-				*[data-val=''] {
-					&:hover {
-						&::after {
-							content: "x";
-							font-weight: 900;
-						}
-					}
-				}
-			}
+  & > div {
+    i, a, span {
+      cursor: pointer;
+      font-size: xx-large;
+      text-align: center;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+    }
+    a {
+      color: white;
+      margin-top: 30px;
+      word-break: break-all;
+    }
+    i {
+      line-height: 1;
+      color: var(--blue);
+    }
+    span {
+      font-size: x-large;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .reset {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
+      border: 2px solid black;
+      padding: 20px;
+      border-radius: 10px;
+      width: 50%;
+      max-width: 400px;
+      margin: auto;
+      margin-top: 40px;
+      transition: background-color 0.2s;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    .game {
+      width: 80%;
+      *[data-val=""] {
+        &:hover {
+          &::after {
+            content: "o";
+            opacity: 0.5;
+          }
+        }
+      }
+      &[data-symbol] {
+        *[data-val=""] {
+          &:hover {
+            &::after {
+              content: "x";
+              font-weight: 900;
+            }
+          }
+        }
+      }
 
+      display: grid;
+      flex-direction: column;
+      margin: auto;
+      aspect-ratio: 1 / 1;
+      grid-template-rows: repeat(3, 1fr);
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 500px;
+      max-height: 500px;
+      & > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: xx-large;
+        border: 5px solid white;
+        border-left: none;
+        border-top: none;
+        font-size: 80px;
 
-			display: grid;
-			flex-direction: column;
-			margin: auto;
-			aspect-ratio : 1 / 1;
-			grid-template-rows: repeat(3, 1fr);
-			grid-template-columns: repeat(3, 1fr);
-			max-width: 500px;
-			max-height: 500px;
-			&>div {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				font-size: xx-large;
-				border: 5px solid white;
-				border-left: none;
-				border-top: none;
-				font-size: 80px;
+        &:nth-child(n+7) {
+          border-bottom: none;
+        }
+        &:nth-child(3n) {
+          border-right: none;
+        }
 
-				&:nth-child(n+7) {
-					border-bottom: none;
-				}
-				&:nth-child(3n) {
-					border-right: none;
-				}
-
-				&::after {
-					position: absolute;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-				}
-				&::after {
-					font-family: fantasy, sans-serif;
-				}
-				&[data-val='O'] {
-					&::after {
-						content: "o";
-					}
-				}
-				&[data-val='X'] {
-					&::after {
-						content: "x";
-						font-weight: 900;
-					}
-				}
-			}
-		}
-	}
+        &::after {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        &::after {
+          font-family: fantasy, sans-serif;
+        }
+        &[data-val="O"] {
+          &::after {
+            content: "o";
+          }
+        }
+        &[data-val="X"] {
+          &::after {
+            content: "x";
+            font-weight: 900;
+          }
+        }
+      }
+    }
+  }
 }
